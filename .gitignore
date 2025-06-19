@@ -1,0 +1,34 @@
+# Compiled object files
+*.o
+
+# Executable binaries
+*.out
+*.elf
+*.bin
+*.exe
+
+# Build directory (if you use one)
+bin/
+build/
+# Backup files
+*~
+*.swp
+*.swo
+*.bak
+*.tmp
+
+# Dependency files
+*.d
+
+# Core dumps
+core
+core.*
+
+# Editor and IDE files
+.vscode/
+.idea/
+*.code-workspace
+
+# OS-specific
+.DS_Store
+Thumbs.db
