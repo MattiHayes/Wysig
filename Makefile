@@ -2,24 +2,33 @@
 CC = gcc
 CFLAGS = -Wall -Wextra -pedantic -std=c99 -Iinc
 
+# Directories
+SRC_DIR = src
+OBJ_DIR = build
+BIN_DIR = bin
+
 # Files
-SRC = src/main.c src/terminal.c
-OBJ = $(SRC:.c=.o)
-BIN = wysig
+SRC = $(wildcard $(SRC_DIR)/*.c)
+OBJ = $(patsubst $(SRC_DIR)/%.c, $(OBJ_DIR)/%.o, $(SRC))
+BIN = $(BIN_DIR)/wysig
 
 # Default target
 all: $(BIN)
 
+# Link object files into executable
 $(BIN): $(OBJ)
+	@mkdir -p $(BIN_DIR)
 	$(CC) $(OBJ) -o $@
 
-%.o: %.c
+# Compile .c files into .o files
+$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
+	@mkdir -p $(OBJ_DIR)
 	$(CC) $(CFLAGS) -c $< -o $@
 
 # Run the program
 run: $(BIN)
 	./$(BIN)
 
-# Clean compiled files
+# Clean
 clean:
-	rm -f $(OBJ) $(BIN)
+	rm -rf $(OBJ_DIR) $(BIN_DIR)
