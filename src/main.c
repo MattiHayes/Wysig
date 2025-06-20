@@ -5,23 +5,7 @@
 #include <termios.h>
 
 #include "terminal.h"
-
-void process_char(char c){
-    switch (c){
-        case 17:
-            exit(0);
-            break;
-        case '\r':
-            write(STDOUT_FILENO, "\r\n", 2);
-            break;
-        case 127:
-            write(STDOUT_FILENO, "\b \b", 3);
-            break;
-        default:
-            write(STDOUT_FILENO, &c, 1);
-    }
-}
-
+#include "process_chars.h"
 
 int main(){
     printf("Welcome to Wysig!\n");

@@ -4,11 +4,12 @@ struct termios original_state;
 
 void cook_the_terminal(){
     tcsetattr(STDIN_FILENO, TCSANOW, &original_state);
+    printf("\n");
 }
 
 void configure_local_modes(struct termios *t){
-   //t->c_lflag &= ~(ECHO | ECHOE | ECHOK | ICANON | IEXTEN | ECHONL);  
-   t->c_lflag &= ~(ECHO | ICANON);
+   t->c_lflag &= ~(ECHO | ECHOE | ECHOK | ICANON | IEXTEN | ECHONL);  
+   //t->c_lflag &= ~(ECHO | ICANON);
 }
 
 

@@ -10,6 +10,7 @@
 #ifndef _TERMINAL_H_
 #define _TERMINAL_H_
 #include <termios.h>
+#include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
 
