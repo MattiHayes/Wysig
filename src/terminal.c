@@ -23,7 +23,7 @@ void configure_output_modes(struct termios *t){
 
 
 void configure_control_modes(struct termios *t){
-        t->c_cflag |= CS8;
+    t->c_cflag |= CS8;
 }
 
 
