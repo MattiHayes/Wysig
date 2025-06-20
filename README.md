@@ -109,7 +109,9 @@ just the letter’s position in the alphabet. So `Ctrl+A` is 1, `Ctrl+B` is 2, a
 
 Also, our favorite character — carriage return — is **13**
 and the Backspace key is mapped to **ASCII 127**, not `'\b'` or ASCII 8 like you might expect. 
-(**More deep breaths**). Then we get to these guys called *escape sequences*. Oh — before we move on
+(**More deep breaths**). Then we get to these guys called [escape codes](https://en.wikipedia.org/wiki/ANSI_escape_code) ... 😶
+
+ Oh — before we move on
  — if you were wondering, the ✨Null✨ character (Rust, I’m looking at you) is `Ctrl+@`.  
 That’s `Ctrl+Shift+<whatever the @ is on your keyboard>`. 
 
@@ -118,3 +120,9 @@ I'm now thinking of renaming this project to **WHYsig**
 Ok back to the code. Now that we've got a handle on raw input (at least we think we do), we can 
 modify the code to actually get the `'q'` character back when it’s typed. It was also around this 
 point that I decided it was time to start splitting my code into different source files.
+
+### 🏃‍♂️ Escape Codes and Terminal Commands
+
+Ok so now things are kinda comming together. These two topics are grouped together because naturally
+they work together. To process an arrow key, the excape code needs to be broken down and then the
+cursor needs to be moved on the screen ... thus ✨terminal commands✨.
