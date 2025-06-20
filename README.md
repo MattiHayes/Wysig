@@ -20,8 +20,7 @@ I will write my own code  mostly from scratch. Google is my first stop when I ge
 - [ ] (When done) update README to past tense 🥳
 
 
-## Explanation of Parts
-### 🥩 'Raw' Mode 
+
 ## Explanation of Parts
 
 ### 🥩 'Raw' Mode
@@ -67,3 +66,55 @@ does exactly that.
 And that, dear reader, brings us to the next part of the adventure.
 
 ### 👻 Non-printable Characters 
+Turns out one of those flags I mentioned earlier disables the terminal's automatic mapping of the 
+carriage return character (`\r`) to the newline character (`\n`). Yes that means that when we
+press enter the computer reads a `\r` not a `\n` (at least on linux) ....  **AAAAAHHHHHHHH!!!!**
+
+OK. Now that I'm back (sorry for that outburst, by the way), let's have a quick, calm discussion 
+about carriage return and newline characters.
+
+According to [this Reddit post](https://www.reddit.com/r/learnprogramming/comments/k76du/why_both_r_and_n_to_go_to_the_next_line/)
+, this all goes back to how commands were sent to real 
+printers. The carriage return (`\r`) moves the cursor to the beginning of the line, and the newline 
+(`\n`) moves the cursor down to the next line.
+
+But — and here's the kicker — different operating systems chose to represent the Enter key using 
+different combinations of these characters.
+
+**WHYYYYYY**  (sorry ... again)
+
+*Deep breaths.*
+
+OK, so this leads me back to the tutorial. Using this snippet of code, we can see what each keyboard
+input is actually read as by the computer:
+
+```c
+char c;
+while (read(STDIN_FILENO, &c, 1) == 1 && c != 'q') {
+    if (iscntrl(c)) {
+        printf("%d\r\n", c);
+    } else {
+        printf("%c = %d\r\n", c, c);
+    }
+}
+```
+
+When I was 13 this was exactly how I thought I would be spending my Friday nights as an adult ... 
+And you know what? I'm not even mad about it.
+
+OK, back to how your — well, my — keyboard reads inputs.
+
+ASCII characters 1 through 26 correspond to your `Ctrl + <char>` inputs, where the ASCII number is 
+just the letter’s position in the alphabet. So `Ctrl+A` is 1, `Ctrl+B` is 2, and so on.
+
+Also, our favorite character — carriage return — is **13**
+and the Backspace key is mapped to **ASCII 127**, not `'\b'` or ASCII 8 like you might expect. 
+(**More deep breaths**). Then we get to these guys called *escape sequences*. Oh — before we move on
+ — if you were wondering, the ✨Null✨ character (Rust, I’m looking at you) is `Ctrl+@`.  
+That’s `Ctrl+Shift+<whatever the @ is on your keyboard>`. 
+
+I'm now thinking of renaming this project to **WHYsig**
+
+Ok back to the code. Now that we've got a handle on raw input (at least we think we do), we can 
+modify the code to actually get the `'q'` character back when it’s typed. It was also around this 
+point that I decided it was time to start splitting my code into different source files.
