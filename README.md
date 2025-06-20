@@ -44,10 +44,11 @@ int lines = 1;
 if (c == '\n') {
     write(STDOUT_FILENO, &c, 1);
     lines++;
+...
 }
 ```
 But then lines was always  zero ... 😭.
-```
+
 I needed a way to tell whether a character was a control character or a printable one. After some 
 playing around (and frustration), I peeked at the kilo tutorial and discovered `iscntrl()`, which 
 does exactly that.
