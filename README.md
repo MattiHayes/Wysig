@@ -40,7 +40,7 @@ So I tried the code below, which should print the newline and also count the num
 
 ```c
 ...
-int lines = 1; 
+int lines = 0; 
 if (c == '\n') {
     write(STDOUT_FILENO, &c, 1);
     lines++;
