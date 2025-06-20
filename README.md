@@ -14,7 +14,7 @@ I will write my own code  mostly from scratch. Google is my first stop when I ge
     - [ ] update the screen
     - [ ] Clean and redraw the screen
 - [ ] **Inputs**
-    - [ ] Filter inputs
+    - [x] Filter inputs
     - [ ] Display typed charters
     - [ ] Store inputs
 - [ ] (When done) update README to past tense 🥳
