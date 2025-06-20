@@ -26,17 +26,28 @@ I will write my own code  mostly from scratch. Google is my first stop when I ge
 
 ### 🥩 'Raw' Mode
 
-So the first step was to disable "cooked" mode — where the terminal echoes what has been entered from the keyboard. This required the use of `termios.h`.
+So the first step was to disable "cooked" mode — where the terminal echoes what has been entered 
+from the keyboard. This required the use of `termios.h`.
 
-The `termios` struct essentially controls the settings of the terminal. The settings are split into different sections: _local modes_, _input modes_, _output modes_, _control modes_, and _control characters_ (special chars).
+The `termios` struct essentially controls the settings of the terminal. The settings are split into 
+different sections: _local modes_, _input modes_, _output modes_, _control modes_, and _control 
+characters_ (special chars).
 
 For example, setting the `ECHO` flag in the local flags will echo inputs to the terminal.
 
-If you disable most of the echo-related and input-processing flags, and then use `write(...)` to print input characters, nothing happens — at least not immediately. That’s because the control mode also needs to be set to expect eight bits (`CS8`), and the control character array (`c_cc`) must have `VMIN` set to 1 (minimum of one byte to return the input) and `VTIME` set to 0 (no delay before returning input — this is in tenths of a second, by the way). Without these, the terminal doesn't deliver characters as you type.
+If you disable most of the echo-related and input-processing flags, and then use `write(...)` to 
+print input characters, nothing happens — at least not immediately. That’s because the control mode 
+also needs to be set to expect eight bits (`CS8`), and the control character array (`c_cc`) must have
+ `VMIN` set to 1 (minimum of one byte to return the input) and `VTIME` set to 0 (no delay before 
+ returning input — this is in tenths of a second, by the way). Without these, the terminal doesn't 
+ deliver characters as you type.
 
-Now with the correct configuration, characters are printed to the screen. The only problem is that pressing Enter just causes new characters to overwrite the current line instead of going to a new line.
+Now with the correct configuration, characters are printed to the screen. The only problem is that 
+pressing Enter just causes new characters to overwrite the current line instead of going to a new 
+line.
 
-So I tried the code below, which should print the newline and also count the number of times there is a newline:
+So I tried the code below, which should print the newline and also count the number of new line 
+characters:
 
 ```c
 ...
