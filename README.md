@@ -157,4 +157,4 @@ and
 ```C
 manipulate_terminal(STDOUT_FILENO, &CLEAR_SCREEN);
 ```
-Ho - also yes! that does mean that I can now clear the screen too !
+Oh - also yes! that does mean that I can now clear the screen too !
