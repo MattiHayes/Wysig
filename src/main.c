@@ -4,11 +4,18 @@
 #include <unistd.h>
 #include <termios.h>
 
-#include "terminal.h"
 #include "process_chars.h"
+#include "terminal.h"
+#include "screen.h"
+
 
 int main(){
-    printf("Welcome to Wysig!\n");
+    manipulate_terminal(STDOUT_FILENO, &CLEAR_SCREEN);
+    
+    printf("--------------------------------------\n");
+    printf("Wysig | Quit:CTRL+Q\n");
+    
+    manipulate_terminal(STDOUT_FILENO, &CURSER_HOME);
     uncook_the_terminal();
 
     char c;

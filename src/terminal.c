@@ -3,11 +3,14 @@
 #include <stdlib.h>
 #include <unistd.h>
 
+#include "screen.h"
+
 struct termios original_state;
 
 void cook_the_terminal(){
+    manipulate_terminal(STDOUT_FILENO, &CLEAR_SCREEN);
+    manipulate_terminal(STDOUT_FILENO, &CURSER_HOME);
     tcsetattr(STDIN_FILENO, TCSANOW, &original_state);
-    printf("\n");
 }
 
 void configure_local_modes(struct termios *t){
