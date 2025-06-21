@@ -1,5 +1,6 @@
 #include <stdlib.h>
 #include <stdio.h>
+#include <string.h>
 #include <termios.h>
 #include <unistd.h>
 
@@ -10,7 +11,7 @@
 #define NEWLINE_RETURN_LEN 2
 
 enum process_commands {
-    BACKSPACE_DEL = 'm' - 'a' + 1,
+    ENTER = 'm' - 'a' + 1,
     QUIT = 'q' - 'a' + 1,
     SAVE = 's' - 'a' + 1
 };
@@ -21,6 +22,17 @@ enum arrow_keys{
     RIGHT = 'C',
     LEFT = 'D'
 };
+
+typedef struct {
+    char *content;
+    int len;
+    int dirty;
+} Line;
+
+Line lines[100];
+int current_line = 0;
+char buff[100];
+int buff_pos = 0;
 
 void process_char(char c){
     if (0 < c && c < 27) {
@@ -40,21 +52,35 @@ void process_char(char c){
         switch (c){
             case 127:
                 write(STDOUT_FILENO, "\b \b", 3);
+                if (buff_pos) --buff_pos;
                 break;
             default:
                 write(STDOUT_FILENO, &c, 1);
+                buff[buff_pos++] = c;
         }
     }
 }
 
 void process_ctrl(char c){
     switch (c){
-        case BACKSPACE_DEL:
+        case ENTER:
             write(STDOUT_FILENO, NEWLINE_RETURN, NEWLINE_RETURN_LEN);
+            buff[buff_pos++] = '\n';
+            buff[buff_pos] = '\0';
+            lines[current_line].content = strdup(buff);
+            lines[current_line].len = buff_pos;
+            lines[current_line].dirty = 1;
+            current_line++;
+            buff_pos = 0;
             break;
         case SAVE:
             write(STDOUT_FILENO, NEWLINE_RETURN, NEWLINE_RETURN_LEN);
-            write(STDOUT_FILENO, "Save to file: ", 15);
+            //write(STDOUT_FILENO, "Save to file: ", 15);
+            FILE * output;
+            output = fopen("Output.txt", "w");
+            for (int i = 0; i < current_line; i++) {
+                fputs(lines[i].content, output);
+            }
             break;
         case QUIT:
             exit(0);

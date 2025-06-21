@@ -12,8 +12,9 @@
 int main(){
     manipulate_terminal(STDOUT_FILENO, &CLEAR_SCREEN);
     
-    printf("--------------------------------------\n");
-    printf("Wysig | Quit:CTRL+Q\n");
+    // I'll add these back in later when I focus on the display
+    // printf("--------------------------------------\n");
+    // printf("Wysig | Quit:CTRL+Q\n");
     
     manipulate_terminal(STDOUT_FILENO, &CURSER_HOME);
     uncook_the_terminal();

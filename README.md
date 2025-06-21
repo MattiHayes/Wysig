@@ -20,6 +20,7 @@ I will write my own code  mostly from scratch. Google is my first stop when I ge
         - [x] Backspace
         - [ ] Tab
         - [ ] Select
+        - [ ] Arrow keys when they get to the end/front of a line etc
     - [ ] Store inputs
 - [ ] (When done) update README to past tense 🥳
 
