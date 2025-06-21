@@ -127,6 +127,34 @@ point that I decided it was time to start splitting my code into different sourc
 
 ### 🏃‍♂️ Escape Codes and Terminal Commands
 
-Ok so now things are kinda comming together. These two topics are grouped together because naturally
-they work together. To process an arrow key, the excape code needs to be broken down and then the
-cursor needs to be moved on the screen ... thus ✨terminal commands✨.
+Ok, so now things are kinda coming together. These two topics are grouped together because — 
+naturally — they work together. To process an arrow key, the escape code needs to be broken down, 
+and then the cursor needs to be moved on the screen... thus: ✨**terminal commands**✨.
+
+Escape codes (or escape sequences — whichever you prefer) are made up of three characters. They 
+start with the escape character (`\27`), followed by `[` and then a letter which identifies the 
+command. There might be more complex forms out there, but for now, I don't really care about them.
+
+Let’s walk through what happens when the up arrow key is pressed. The characters sent are `\27[A`, 
+but the *first* character read is just `\27`. So, I need to read two more characters and make sure 
+the next is `[` before processing the third one as the command.
+
+Cool — now we can differentiate the escape codes we need to move the cursor.
+
+So this is kinda cool (just me?): if we write `\033[A` to the terminal, the cursor moves 
+**up one row**. Infact, if we write `\033[1A`, that also moves it up one row. So really, `\033[<n>A`
+moves the cursor *n* rows up. Ok .. that wasn’t too bad.
+
+Now, I foresee myself writing a lot of these terminal command sequences, so I decided to create a 
+`TerminalCommand` struct to store both the command string and its length. Hopefully, this will 
+reduce some repetition and improve code clarity. From this idea, these bits of code were born:
+
+
+```C
+const TerminalCommand CURSOR_UP = {"\033[A", 3};
+```
+and 
+```C
+manipulate_terminal(STDOUT_FILENO, &CLEAR_SCREEN);
+```
+Ho - also yes! that does mean that I can now clear the screen too !
