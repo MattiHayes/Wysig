@@ -23,17 +23,49 @@ enum arrow_keys{
     LEFT = 'D'
 };
 
+// -------------------------------------------------------------------------------------------------
 typedef struct {
     char *content;
     int len;
-    int dirty;
+    // int dirty; <-- this will eventually be for smart writing/saving 
 } Line;
 
-Line lines[100];
-int current_line = 0;
-char buff[100];
-int buff_pos = 0;
 
+Line lines[100];
+int current_line;
+char buff[100];
+int buff_pos;
+
+
+void add_char_to_line(char c){
+        buff[buff_pos] = c;
+        buff_pos++;
+}
+
+void add_new_line(){
+    buff[buff_pos++] = '\n';
+    buff[buff_pos] = '\0';
+    lines[current_line].content = strdup(buff);
+    lines[current_line].len = buff_pos;
+    current_line++;
+    buff_pos = 0;
+}
+
+void backspace_char(){
+    if (buff_pos) --buff_pos;
+}
+
+void save_file(){
+    add_new_line();
+    FILE * output;
+    output = fopen("Output.txt", "w");
+    // this only saves up to the last new line char
+    for (int i = 0; i < current_line; i++) {
+        fputs(lines[i].content, output);
+    }
+}
+
+// -------------------------------------------------------------------------------------------------
 void process_char(char c){
     if (0 < c && c < 27) {
         process_ctrl(c);
@@ -52,11 +84,11 @@ void process_char(char c){
         switch (c){
             case 127:
                 write(STDOUT_FILENO, "\b \b", 3);
-                if (buff_pos) --buff_pos;
+                backspace_char();
                 break;
             default:
                 write(STDOUT_FILENO, &c, 1);
-                buff[buff_pos++] = c;
+                add_char_to_line(c);
         }
     }
 }
@@ -65,22 +97,12 @@ void process_ctrl(char c){
     switch (c){
         case ENTER:
             write(STDOUT_FILENO, NEWLINE_RETURN, NEWLINE_RETURN_LEN);
-            buff[buff_pos++] = '\n';
-            buff[buff_pos] = '\0';
-            lines[current_line].content = strdup(buff);
-            lines[current_line].len = buff_pos;
-            lines[current_line].dirty = 1;
-            current_line++;
-            buff_pos = 0;
+            add_new_line();
             break;
         case SAVE:
-            write(STDOUT_FILENO, NEWLINE_RETURN, NEWLINE_RETURN_LEN);
+            //write(STDOUT_FILENO, NEWLINE_RETURN, NEWLINE_RETURN_LEN);
             //write(STDOUT_FILENO, "Save to file: ", 15);
-            FILE * output;
-            output = fopen("Output.txt", "w");
-            for (int i = 0; i < current_line; i++) {
-                fputs(lines[i].content, output);
-            }
+            save_file();
             break;
         case QUIT:
             exit(0);
