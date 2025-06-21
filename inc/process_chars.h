@@ -8,10 +8,7 @@
  */
 
 #ifndef _PROCESS_CHARS_H_
-#include <stdlib.h>
-#include <stdio.h>
-#include <termios.h>
-#include <unistd.h>
+
 
 void process_char(char c);
 void process_ctrl(char c);

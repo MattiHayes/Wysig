@@ -1,6 +1,10 @@
-#include "process_chars.h"
+#include <stdlib.h>
+#include <stdio.h>
+#include <termios.h>
+#include <unistd.h>
 
-#include <curses.h>
+#include "process_chars.h"
+#include "screen.h"
 
 #define NEWLINE_RETURN "\r\n"
 #define NEWLINE_RETURN_LEN 2
@@ -67,16 +71,16 @@ void process_escape_code(char code){
             // lets just get these ones out of the way
             break;
         case UP:
-            write(STDOUT_FILENO, "\033[1A", 4);
+            manipulate_terminal(STDOUT_FILENO, &CURSOR_UP);
             break;
         case DOWN:
-            write(STDOUT_FILENO, "\033[1B", 4);
+            manipulate_terminal(STDOUT_FILENO, &CURSOR_DOWN);
             break;
         case RIGHT:
-            write(STDOUT_FILENO, "\033[1C", 4);
+            manipulate_terminal(STDOUT_FILENO, &CURSOR_RIGHT);
             break;
         case LEFT:
-            write(STDOUT_FILENO, "\033[1D", 4);
+            manipulate_terminal(STDOUT_FILENO, &CURSOR_LEFT);
             break;
         
     }
