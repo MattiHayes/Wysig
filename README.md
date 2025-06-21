@@ -11,11 +11,15 @@ I will write my own code  mostly from scratch. Google is my first stop when I ge
 
 - [ ] Read up on termios.h
 - [ ] **Screen**
-    - [ ] update the screen
+    - [x] update the screen with text
     - [ ] Clean and redraw the screen
 - [ ] **Inputs**
     - [x] Filter inputs
-    - [ ] Display typed charters
+    - [x] Display typed charters
+    - [ ] **Commands to Implement**
+        - [x] Backspace
+        - [ ] Tab
+        - [ ] Select
     - [ ] Store inputs
 - [ ] (When done) update README to past tense 🥳
 
