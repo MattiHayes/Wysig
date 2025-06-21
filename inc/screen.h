@@ -15,10 +15,13 @@ typedef struct {
     const int len;
 } TerminalCommand;
 
+extern const TerminalCommand CLEAR_SCREEN;
+
 extern const TerminalCommand CURSOR_UP;
 extern const TerminalCommand CURSOR_DOWN;
 extern const TerminalCommand CURSOR_RIGHT;
 extern const TerminalCommand CURSOR_LEFT;
+extern const TerminalCommand CURSER_HOME;
 
 
 void manipulate_terminal(int fd, const TerminalCommand *command);
