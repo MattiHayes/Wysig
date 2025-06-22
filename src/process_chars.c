@@ -6,6 +6,7 @@
 
 #include "process_chars.h"
 #include "screen.h"
+#include "content.h"
 
 #define NEWLINE_RETURN "\r\n"
 #define NEWLINE_RETURN_LEN 2
@@ -23,49 +24,9 @@ enum arrow_keys{
     LEFT = 'D'
 };
 
-// -------------------------------------------------------------------------------------------------
-typedef struct {
-    char *content;
-    int len;
-    // int dirty; <-- this will eventually be for smart writing/saving 
-} Line;
 
+ContentManager cm = {0};
 
-Line lines[100];
-int current_line;
-char buff[100];
-int buff_pos;
-
-
-void add_char_to_line(char c){
-        buff[buff_pos] = c;
-        buff_pos++;
-}
-
-void add_new_line(){
-    buff[buff_pos++] = '\n';
-    buff[buff_pos] = '\0';
-    lines[current_line].content = strdup(buff);
-    lines[current_line].len = buff_pos;
-    current_line++;
-    buff_pos = 0;
-}
-
-void backspace_char(){
-    if (buff_pos) --buff_pos;
-}
-
-void save_file(){
-    add_new_line();
-    FILE * output;
-    output = fopen("Output.txt", "w");
-    // this only saves up to the last new line char
-    for (int i = 0; i < current_line; i++) {
-        fputs(lines[i].content, output);
-    }
-}
-
-// -------------------------------------------------------------------------------------------------
 void process_char(char c){
     if (0 < c && c < 27) {
         process_ctrl(c);
@@ -84,11 +45,11 @@ void process_char(char c){
         switch (c){
             case 127:
                 write(STDOUT_FILENO, "\b \b", 3);
-                backspace_char();
+                backspace_char(&cm);
                 break;
             default:
                 write(STDOUT_FILENO, &c, 1);
-                add_char_to_line(c);
+                add_char(&cm, c);
         }
     }
 }
@@ -97,12 +58,12 @@ void process_ctrl(char c){
     switch (c){
         case ENTER:
             write(STDOUT_FILENO, NEWLINE_RETURN, NEWLINE_RETURN_LEN);
-            add_new_line();
+            add_new_line(&cm);
             break;
         case SAVE:
             //write(STDOUT_FILENO, NEWLINE_RETURN, NEWLINE_RETURN_LEN);
             //write(STDOUT_FILENO, "Save to file: ", 15);
-            save_file();
+            save_file(&cm);
             break;
         case QUIT:
             exit(0);
