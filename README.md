@@ -159,3 +159,107 @@ and
 manipulate_terminal(STDOUT_FILENO, &CLEAR_SCREEN);
 ```
 Oh - also yes! that does mean that I can now clear the screen too!
+
+
+### 😵‍💫 Storing and Saving Text
+Ok, so now we need to store the data.
+**No problem** — we'll just chuck all the characters into a single array, right? ...
+
+ Right?
+
+Well, then what if the user edits just one line?  
+Do we rewrite the entire file? That seems wasteful.  
+**Ok fine**, let’s split the content into lines and store each line as its own array.  
+That way, someday in the future, we can just overwrite lines that were changed. Cool, yes that is a sounds like a good idea.
+
+We’ll create a `Line` structure that holds the characters, the current length, and the maximum 
+length it can be. And then we’ll have a `ContentManager` (because naming things is free) that holds 
+an array of lines, the current line, and a maximum number of lines. It might fill up — but we’ll 
+cross that bridge when we get there.
+
+Now: when we read a new line, we need to:
+
+1. Check that there’s space for two more characters (`\n` and `\0`)
+2. Add the newline and null-terminator
+3. Increment the line count
+4. Initialize the next line’s structure
+
+A bit of work, but doable.  
+Actually — wait — we need to check if we even *have* enough lines left in the buffer.
+
+**Hmmmm.** Ok.  
+**No no. This is fine.**
+
+Then to insert a character we:
+
+1. Check if there's space in the current line
+2. If there is, great — we add it and increase the length
+3. If not, we terminate the line and move to the next one
+
+Wait.
+
+This is getting messy.  
+There are pointers everywhere.  
+And I’m slightly panicking about memory.  
+And lines.  
+And—
+
+**HOLD ON ONE SECOND.**
+
+What if the user wants to insert into the *middle* of the line? 
+
+**AAhjhhajahabbhaaa**
+
+There has to be a better way to do this, right?
+
+Feeling **very demotivated** and just a little bit broken, I did what any desperate person in 2025 
+would do – I cracked turned to AI.  
+
+But I didn’t ask for code. I just explained the problem.  
+
+It basically said,
+"Yep. That’s text editing in C. Good luck, buddy."
+OK, thanks ChatGPT — let’s go ask Google.
+
+Turns out that storing and manipulating text is actually... kind of a hard problem.
+And I thought this would be a quick little project 😅.
+
+
+Anyway I found [this article by Cameron DaCamara](https://cdacamar.github.io/data%20structures/algorithms/benchmarking/text%20editors/c++/editor-data-structures/) which describes exactly what I’ve been going through — 
+just maybe with a  more professional tone.
+
+So at this point, I made a decision:
+Get the current implementation working first — even if inserting in the middle of a line just 
+triggers overtype Mode (Sorry ... Not sorry).
+
+It was also around here that I thought maybe I should map out how the different parts of the code 
+interact. That gave me this:
+
+![V0.1.0-block diagram](./assets/figs/Wysig-v0.1.0.svg)
+
+Now, the arrow keys aren’t working properly. When I move the cursor around, the saved file ends up 
+with missing or jumbled lines.
+
+Right — so, what if the `ContentManager` tracks the cursor position, and the `ScreenManager` just 
+asks it where to place the curser?
+
+That way I don’t have to duplicate logic between the input manager and the content manager.
+Also, that logic probably shouldn’t have been in the input manager anyway.
+
+So the system should probably look like this instead:
+
+![V0.2.0-block diagram](./assets/figs/Wysig-v0.2.0.svg)
+
+Ahhh mich cleaner.
+
+---
+So after having this idea, and with a basic editor working (I mean it has some quirks) , I tagged 
+that version as v0.1.0 and decided to start refactoring everything.
+
+Oh — and somewhere in the middle of this, I wrote a Python file in Wysig and successfully ran it in 
+the terminal. That moment felt kinda huge.
+
+What has become of my life 🙈 
+
+
+
