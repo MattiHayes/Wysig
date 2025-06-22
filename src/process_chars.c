@@ -39,9 +39,10 @@ void process_char(char c){
                 return;
             } 
         }
-        if (code[0] == '[') { 
-            process_escape_code(code[1]);
-        }
+        // sorry escape codes are not supported at the moment
+        // if (code[0] == '[') { 
+        //     process_escape_code(code[1]);
+        // }
     } else {
         switch (c){
             case 127:
