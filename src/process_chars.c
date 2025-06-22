@@ -27,6 +27,7 @@ enum arrow_keys{
 
 ContentManager cm = {0};
 
+
 void process_char(char c){
     if (0 < c && c < 27) {
         process_ctrl(c);
@@ -89,15 +90,19 @@ void process_escape_code(char code){
             break;
         case UP:
             manipulate_terminal(STDOUT_FILENO, &CURSOR_UP);
+            curser_up(&cm);
             break;
         case DOWN:
             manipulate_terminal(STDOUT_FILENO, &CURSOR_DOWN);
+            curser_down(&cm);
             break;
         case RIGHT:
             manipulate_terminal(STDOUT_FILENO, &CURSOR_RIGHT);
+            curser_right(&cm);
             break;
         case LEFT:
             manipulate_terminal(STDOUT_FILENO, &CURSOR_LEFT);
+            curser_left(&cm);
             break;
         
     }

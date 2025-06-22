@@ -15,6 +15,7 @@ typedef struct {
 typedef struct {
     Line lines[MAX_LINES];
     int current_line;
+    int num_lines;
 } ContentManager;
 
 
@@ -25,5 +26,9 @@ void add_new_line(ContentManager *cm);
 void backspace_char(ContentManager *cm);
 void save_file(ContentManager *cm, char *file_name);
 
+void curser_up(ContentManager *cm);
+void curser_down(ContentManager *cm);
+void curser_right(ContentManager *cm);
+void curser_left(ContentManager *cm);
 
 #endif // _CONTENT_H_
