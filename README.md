@@ -250,7 +250,7 @@ So the system should probably look like this instead:
 
 ![V0.2.0-block diagram](./assets/figs/Wysig-v0.2.0.svg)
 
-Ahhh mich cleaner.
+Ahhh much cleaner.
 
 ---
 So after having this idea, and with a basic editor working (I mean it has some quirks) , I tagged 
