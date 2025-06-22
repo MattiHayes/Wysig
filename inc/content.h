@@ -23,7 +23,7 @@ typedef struct {
 void add_char(ContentManager *cm, char c);
 void add_new_line(ContentManager *cm);
 void backspace_char(ContentManager *cm);
-void save_file(ContentManager *cm);
+void save_file(ContentManager *cm, char *file_name);
 
 
 #endif // _CONTENT_H_

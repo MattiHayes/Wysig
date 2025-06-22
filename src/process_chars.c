@@ -60,11 +60,19 @@ void process_ctrl(char c){
             write(STDOUT_FILENO, NEWLINE_RETURN, NEWLINE_RETURN_LEN);
             add_new_line(&cm);
             break;
-        case SAVE:
-            //write(STDOUT_FILENO, NEWLINE_RETURN, NEWLINE_RETURN_LEN);
-            //write(STDOUT_FILENO, "Save to file: ", 15);
-            save_file(&cm);
+        case SAVE: 
+            write(STDOUT_FILENO, "\r\n\n...no backspace in save yet...\r\n", 35);
+            write(STDOUT_FILENO, "\r\nEnter file name and enter: ", 29);
+            char name[30];
+            char name_c;
+            for (int i = 0; read(STDIN_FILENO, &name_c, 1) == 1 && name_c != '\r'; i++){
+                write(STDOUT_FILENO, &name_c, 1);
+                name[i] = name_c;
+            }
+            save_file(&cm, name);
+            write(STDOUT_FILENO, NEWLINE_RETURN, NEWLINE_RETURN_LEN);
             break;
+        
         case QUIT:
             exit(0);
             // break; (good practice)

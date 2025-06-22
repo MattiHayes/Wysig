@@ -43,10 +43,10 @@ void backspace_char(ContentManager *cm){
     cm->lines[cm->current_line].len--;
 }
 
-void save_file(ContentManager *cm){
+void save_file(ContentManager *cm, char *file_name){
     FILE * output;
     add_new_line(cm);
-    output = fopen("Output.txt", "w");
+    output = fopen(file_name, "w");
     // this only saves up to the last new line char
     for (int i = 0; i < cm->current_line + 1; i++) {
         fputs(cm->lines[i].content, output);
