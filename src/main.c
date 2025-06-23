@@ -4,7 +4,7 @@
 #include <unistd.h>
 #include <termios.h>
 
-#include "process_chars.h"
+#include "inputs.h"
 #include "terminal.h"
 #include "screen.h"
 
