@@ -9,7 +9,8 @@ const TerminalCommand CURSOR_UP = {"\033[A", 3};
 const TerminalCommand CURSOR_DOWN = {"\033[B", 3};
 const TerminalCommand CURSOR_RIGHT = {"\033[C", 3};
 const TerminalCommand CURSOR_LEFT = {"\033[D", 3};
-const TerminalCommand CURSER_HOME = {"\033[H", 3};
+const TerminalCommand CURSER_HOME = {"\033[2;0H", 7};
+const TerminalCommand CURSER_POSITION = {"\033[6n", 4};
 
 
 void manipulate_terminal(int fd, const TerminalCommand *command){

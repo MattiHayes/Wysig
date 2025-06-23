@@ -22,6 +22,7 @@ extern const TerminalCommand CURSOR_DOWN;
 extern const TerminalCommand CURSOR_RIGHT;
 extern const TerminalCommand CURSOR_LEFT;
 extern const TerminalCommand CURSER_HOME;
+extern const TerminalCommand TERMINAL_SIZE;
 
 
 void manipulate_terminal(int fd, const TerminalCommand *command);

@@ -39,10 +39,9 @@ void process_char(char c){
                 return;
             } 
         }
-        // sorry escape codes are not supported at the moment
-        // if (code[0] == '[') { 
-        //     process_escape_code(code[1]);
-        // }
+        if (code[0] == '[') { 
+            process_escape_code(code[1]);
+        }
     } else {
         switch (c){
             case 127:
@@ -54,6 +53,8 @@ void process_char(char c){
                 add_char(&cm, c);
         }
     }
+
+    print_curser_location(&cm);
 }
 
 void process_ctrl(char c){
@@ -90,21 +91,16 @@ void process_escape_code(char code){
             // lets just get these ones out of the way
             break;
         case UP:
-            manipulate_terminal(STDOUT_FILENO, &CURSOR_UP);
             curser_up(&cm);
             break;
         case DOWN:
-            manipulate_terminal(STDOUT_FILENO, &CURSOR_DOWN);
             curser_down(&cm);
             break;
         case RIGHT:
-            manipulate_terminal(STDOUT_FILENO, &CURSOR_RIGHT);
             curser_right(&cm);
             break;
         case LEFT:
-            manipulate_terminal(STDOUT_FILENO, &CURSOR_LEFT);
             curser_left(&cm);
             break;
-        
     }
 }
