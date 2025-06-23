@@ -8,20 +8,24 @@ I will write my own code  mostly from scratch. Google is my first stop when I ge
  as a sounding board - not as a code generator. 
 
 ## TODO:
-
-- [ ] Read up on termios.h
-- [ ] **Screen**
-    - [x] update the screen with text
-    - [ ] Clean and redraw the screen
 - [ ] **Inputs**
-    - [x] Filter inputs
-    - [x] Display typed charters
+    - [ ] Pass information to the Content Manager
+
+- [ ] **Content Manager**
     - [ ] **Commands to Implement**
         - [x] Backspace
+        - [ ] Backspace at the end of a line
         - [ ] Tab
         - [ ] Select
         - [ ] Arrow keys when they get to the end/front of a line etc
-    - [x] Store inputs
+    - [ ] Track the position of the curser based on the commands above
+    - [ ] Function to pass on the curser position to the screen 
+- [ ] **Screen**
+    - [ ] update the curser based on info from the content manager 
+    - [ ] update the screen with text, based on the content manager 
+    - [ ] Clean and redraw the screen
+
+
 - [ ] (When done) update README to past tense 🥳
 
 
