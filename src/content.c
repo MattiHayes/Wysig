@@ -5,6 +5,14 @@
 #include <unistd.h>
 
 
+
+void move_curser_to_end_of_next_line(ContentManager *cm);
+
+// -------------------------------------------------------------------------------------------------
+// Main functions
+// -------------------------------------------------------------------------------------------------
+
+
 // TODO: I think I can clean this code up a bit
 void add_char(ContentManager *cm, char c){
     Line line = cm->lines[cm->current_line];
@@ -24,6 +32,19 @@ void add_char(ContentManager *cm, char c){
     }
 }
 
+void backspace_char(ContentManager *cm){
+    if (cm->current_column > 0) {
+        cm->current_column--;
+        cm->lines[cm->current_line].len--;
+    } else {
+        move_curser_to_end_of_next_line(cm);
+        // there also  needs to be a merge of lines now ...
+    }
+}
+
+// -------------------------------------------------------------------------------------------------
+// helper functions
+// -------------------------------------------------------------------------------------------------
 
 void add_char_to_line(Line *line, char c) {
     line->content[line->len] = c;
@@ -37,7 +58,6 @@ void add_new_line(ContentManager *cm){
     create_new_line(cm);
 }
 
-
 void create_new_line(ContentManager *cm){
     if (cm->current_line < MAX_LINES) {
         cm->current_line++;
@@ -48,30 +68,18 @@ void create_new_line(ContentManager *cm){
     }
 }
 
+// -------------------------------------------------------------------------------------------------
+// Moving curser funcations  --- maybe should be in their own file as well 
+// -------------------------------------------------------------------------------------------------
 
 void move_curser_to_end_of_next_line(ContentManager *cm){
-    if (cm->current_line > 0) {
-        cm->current_line--;
-        int len = cm->lines[cm->current_line].len;
-        if (cm->lines[cm->current_line].content[len-1] == '\n'){
-            len -= 2;
-            cm->lines[cm->current_line].len -= 2;
-        };
-        cm->current_column = len;
-    } 
-}
-
-
-void backspace_char(ContentManager *cm){
-    if (cm->current_column > 0) {
-        cm->current_column--;
-        cm->lines[cm->current_line].len--;
-    } else {
-        move_curser_to_end_of_next_line(cm);
-        // there also  needs to be a merge of lines now ...
+    if (cm->current_line == 0) {
+        return;
     }
+    cm->current_line--;
+    int len = cm->lines[cm->current_line].len;
+    cm->current_column = len;
 }
-
 
 void curser_up(ContentManager *cm){
     //int line_len = cm->lines[cm->current_line].len;
@@ -79,9 +87,17 @@ void curser_up(ContentManager *cm){
 }
 
 void curser_down(ContentManager *cm){
-    if (cm->current_line < MAX_LINES) cm->current_line++;
-    if (cm->current_column > cm->lines[cm->current_column].len){
-        cm->current_column = cm->lines[cm->current_column].len;
+    if (cm->current_line >= cm->num_lines) {
+        add_new_line(cm);
+        return;
+    }
+    if (cm->current_line == MAX_LINES) {
+        return;
+    }
+    
+    cm->current_line++;
+    if (cm->current_column > cm->lines[cm->current_line].len) {
+        cm->current_column = cm->lines[cm->current_line].len;
     }
 }
 
@@ -107,6 +123,9 @@ void curser_left(ContentManager *cm){
 }
 
 
+// -------------------------------------------------------------------------------------------------
+// Misc probably will move these into a separate file later
+// -------------------------------------------------------------------------------------------------
 void print_curser_location(ContentManager *cm) {
     write(STDOUT_FILENO, "\033[H", 3);
     char pos[44];
