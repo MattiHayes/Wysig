@@ -7,6 +7,7 @@
 
 
 void move_curser_to_end_of_next_line(ContentManager *cm);
+void add_char_in_line(Line *line, char c, int column);
 
 // -------------------------------------------------------------------------------------------------
 // Main functions
@@ -19,9 +20,9 @@ void add_char(ContentManager *cm, char c){
 
     if (line.len < MAX_LINE_LENGTH - 1) {
         // there is two spaces left in the string
-        add_char_to_line(&cm->lines[cm->current_line], c);
+        add_char_in_line(&cm->lines[cm->current_line], c, cm->current_column);
         cm->current_column++;
-    } else if (cm->lines[cm->current_line].len == MAX_LINE_LENGTH - 1){
+    } else if (line.len == MAX_LINE_LENGTH - 1){
         // we are at capacity in the current string
         create_new_line(cm);
         add_char_to_line(&cm->lines[cm->current_line], c);
@@ -48,6 +49,15 @@ void backspace_char(ContentManager *cm){
 void add_char_to_line(Line *line, char c) {
     line->content[line->len] = c;
     line->len++;
+}
+
+void add_char_in_line(Line *line, char c, int column) {
+    if (column >= line->len) {
+        line->content[line->len] = c;
+        line->len++;
+    } else {
+        line->content[column] = c;
+    }
 }
 
 void add_new_line(ContentManager *cm){
@@ -123,7 +133,6 @@ void curser_left(ContentManager *cm){
     }
     if (cm->current_column > 0) cm->current_column--;
 }
-
 
 // -------------------------------------------------------------------------------------------------
 // Misc probably will move these into a separate file later
