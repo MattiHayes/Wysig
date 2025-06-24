@@ -66,14 +66,13 @@ void process_ctrl(char c){
         case SAVE: 
             write(STDOUT_FILENO, "\r\n\n...no backspace in save yet...\r\n", 35);
             write(STDOUT_FILENO, "\r\nEnter file name and enter: ", 29);
-            char name[30];
+            char name[30] = {0};
             char name_c;
             for (int i = 0; read(STDIN_FILENO, &name_c, 1) == 1 && name_c != '\r'; i++){
                 write(STDOUT_FILENO, &name_c, 1);
                 name[i] = name_c;
             }
             save_file(&cm, name);
-            write(STDOUT_FILENO, NEWLINE_RETURN, NEWLINE_RETURN_LEN);
             break;
         
         case QUIT:

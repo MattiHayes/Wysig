@@ -20,8 +20,8 @@ typedef struct {
 } ContentManager;
 
 
-//void add_char_to_line(Line *line, char c);
-//void create_new_line(ContentManager *cm);
+void add_char_to_line(Line *line, char c);
+void create_new_line(ContentManager *cm);
 void add_char(ContentManager *cm, char c);
 void add_new_line(ContentManager *cm);
 void backspace_char(ContentManager *cm);
