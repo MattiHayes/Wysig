@@ -7,7 +7,7 @@
 
 struct termios original_state;
 
-void cook_the_terminal(){
+void cook_the_terminal(void){
     manipulate_terminal(STDOUT_FILENO, &CLEAR_SCREEN);
     manipulate_terminal(STDOUT_FILENO, &CURSER_HOME);
     tcsetattr(STDIN_FILENO, TCSANOW, &original_state);
@@ -39,7 +39,7 @@ void configure_control_characters(struct termios *t){
     t->c_cc[VTIME] = 0;
 }
 
-int uncook_the_terminal(){
+int uncook_the_terminal(void){
     atexit(cook_the_terminal);
     tcgetattr(STDIN_FILENO, &original_state);  // save the current state
     struct termios raw;

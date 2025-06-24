@@ -22,12 +22,12 @@ void configure_control_characters(struct termios *t);
  * 
  * @return int 0 or -1 for error.
  */
-int uncook_the_terminal(); 
+int uncook_the_terminal(void); 
 
 /**
  * @brief Set the terminal to its state before we set it to non-canonical mode.
  * 
  */
-void cook_the_terminal();
+void cook_the_terminal(void);
 
 #endif // _TERMINAL_H_
